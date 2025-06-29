@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import Home from './pages/Home';
+import Home from './pages/home';
 import StatePage from './pages/StatePage';
 import SupplierPage from './pages/SupplierPage';
 import AboutPage from './pages/AboutPage';
