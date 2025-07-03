@@ -1,5 +1,3 @@
-// src/pages/SupplierPage.tsx
-
 import React from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useSuppliers } from '../hooks/useSuppliers';
@@ -13,12 +11,9 @@ export default function SupplierPage() {
   const location = useLocation<LocationState>();
   const { suppliers } = useSuppliers();
 
-  // If the card passed you a from, use that; otherwise fall back to history
   const from = location.state?.from;
 
-  // Button to return to the unfiltered home page
   const backToAll = () => {
-    // full reload to clear everything
     window.location.href = '/home';
   };
 
@@ -26,7 +21,18 @@ export default function SupplierPage() {
     return <p className="p-8 text-center">Loading…</p>;
   }
 
-  const supplier = suppliers.find(s => s.id === id);
+  const supplier = suppliers.find((s) => {
+    if (!s.businessName) return false;
+
+    const slug = s.businessName
+      .toLowerCase()
+      .replace(/\s+/g, '-')
+      .replace(/[^\w-]+/g, '')
+      .replace(/--+/g, '-')
+      .replace(/^-+|-+$/g, '');
+
+    return slug === id || String(s.id) === id;
+  });
 
   if (!supplier) {
     return (
@@ -37,7 +43,10 @@ export default function SupplierPage() {
         >
           ← Back to Results
         </button>
-        <button onClick={backToAll} className="text-blue-600 hover:underline">
+        <button
+          onClick={backToAll}
+          className="text-blue-600 hover:underline"
+        >
           ← Back to All Suppliers
         </button>
         <p className="mt-4">Supplier not found.</p>
@@ -46,18 +55,7 @@ export default function SupplierPage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
-      <div className="mb-6 flex space-x-4">
-        <button
-          onClick={() => (from ? navigate(from) : navigate(-1))}
-          className="text-blue-600 hover:underline"
-        >
-          ← Back to Results
-        </button>
-        <button onClick={backToAll} className="text-blue-600 hover:underline">
-          ← Back to All Suppliers
-        </button>
-      </div>
+    <div className="max-w-7xl mx-auto px-4 py-6">
       <SupplierDetail
         supplier={supplier}
         onClose={() => (from ? navigate(from) : navigate(-1))}

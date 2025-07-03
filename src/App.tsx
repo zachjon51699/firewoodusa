@@ -6,6 +6,7 @@ import Home from './pages/home';
 import StatePage from './pages/StatePage';
 import SupplierPage from './pages/SupplierPage';
 import AboutPage from './pages/AboutPage';
+import ProductsPage from './pages/ProductsPage';
 import ContactPage from './pages/ContactPage';
 
 export default function App() {
@@ -26,6 +27,7 @@ export default function App() {
 
       {/* Static pages */}
       <Route path="/about" element={<AboutPage />} />
+      <Route path="/products" element={<ProductsPage />} />
       <Route path="/contact" element={<ContactPage />} />
 
       {/* Catch-all */}

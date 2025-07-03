@@ -18,7 +18,6 @@ export const Header: React.FC<HeaderProps> = ({ onSearchClick }) => {
             to="/home"
             className="flex items-center text-amber-600 text-2xl font-bold hover:underline"
           >
-            {/* Larger tree icon only */}
             <TreePine className="h-8 w-8 mr-2" />
             FindFirewoodUSA
           </Link>
@@ -27,6 +26,9 @@ export const Header: React.FC<HeaderProps> = ({ onSearchClick }) => {
           </Link>
           <Link to="/about" className="text-gray-700 text-lg hover:text-gray-900">
             About
+          </Link>
+          <Link to="/products" className="text-gray-700 text-lg hover:text-gray-900">
+            Products
           </Link>
           <Link to="/contact" className="text-gray-700 text-lg hover:text-gray-900">
             Contact

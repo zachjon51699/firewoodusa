@@ -43,7 +43,7 @@ export default function ContactPage() {
         <div className="bg-white rounded-lg shadow p-6">
           <h2 className="text-2xl font-semibold mb-4">General Inquiries</h2>
           <p className="text-gray-700">
-            Email: <a href="mailto:support@firewoodusa.com" className="text-amber-600 hover:underline">support@findfirewoodusa.com</a><br/>
+            Email: <a href="mailto:info@firewoodusa.com" className="text-amber-600 hover:underline">info@findfirewoodusa.com</a><br/>
             Phone: <a href="tel:5551234567" className="text-amber-600 hover:underline">(555) 123-4567</a>
           </p>
         </div>

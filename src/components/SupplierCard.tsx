@@ -13,9 +13,28 @@ export const SupplierCard: React.FC<SupplierCardProps> = ({ supplier }) => {
   const location = useLocation();
   const from = location.pathname + (location.search || '');
 
+  // Generate slug from business name
+  const slug = supplier.businessName
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^\w-]+/g, '')
+    .replace(/--+/g, '-')
+    .replace(/^-+|-+$/g, '');
+
+  // Dynamic description
+  const description = `${supplier.businessName} provides firewood in ${supplier.address.city}, ${supplier.address.state}.` +
+    `${supplier.woodTypes.length > 0 ? ` They offer popular wood types like ${supplier.woodTypes.slice(0, 2).join(' and ')}.` : ''}` +
+    `${supplier.deliveryRadius && supplier.deliveryRadius > 0
+      ? ` Delivery is available within ${supplier.deliveryRadius} miles.`
+      : ' Delivery is currently not available.'}` +
+    `${supplier.pricing?.cordPrice && supplier.pricing.cordPrice > 0
+      ? ` Pricing starts at $${supplier.pricing.cordPrice} per cord.`
+      : ' Call for current pricing and availability.'}` +
+    `${supplier.isVerified ? ' This supplier is verified for quality service.' : ''}`;
+
   return (
     <Link
-      to={`/supplier/${supplier.id}`}
+      to={`/supplier/${slug}`}
       state={{ from }}
       className="block"
     >
@@ -59,9 +78,10 @@ export const SupplierCard: React.FC<SupplierCardProps> = ({ supplier }) => {
             <Phone className="h-4 w-4 mr-1" />
             <span className="text-sm">{supplier.phone}</span>
           </div>
-          <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-            {supplier.businessDescription}
-          </p>
+
+          {/* Updated dynamic description */}
+          <p className="text-gray-600 text-sm mb-4">{description}</p>
+
           <div className="mb-4">
             <div className="flex flex-wrap gap-1 mb-2">
               {supplier.woodTypes.slice(0, 3).map(type => (
@@ -79,14 +99,23 @@ export const SupplierCard: React.FC<SupplierCardProps> = ({ supplier }) => {
               )}
             </div>
           </div>
+
           <div className="flex items-center justify-between text-sm border-t border-gray-100 pt-4">
             <div className="flex items-center text-green-600">
               <Truck className="h-4 w-4 mr-1" />
-              <span>{supplier.deliveryRadius} mile radius</span>
+              {supplier.deliveryRadius && supplier.deliveryRadius > 0 ? (
+                <span>{supplier.deliveryRadius} mile radius</span>
+              ) : (
+                <span>Delivery radius not listed</span>
+              )}
             </div>
             <div className="flex items-center text-gray-900 font-semibold">
               <DollarSign className="h-4 w-4 mr-1" />
-              <span>${supplier.pricing.cordPrice}/cord</span>
+              {supplier.pricing?.cordPrice && supplier.pricing.cordPrice > 0 ? (
+                <span>${supplier.pricing.cordPrice}/cord</span>
+              ) : (
+                <span>Call for pricing</span>
+              )}
             </div>
           </div>
         </div>
